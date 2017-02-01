@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content_posts %}
+
+
+
+<div class="blog-header">
+        <h1 class="blog-title">Django Application Blog</h1>
+        <p class="lead blog-description">Every authenticated user can post here.</p>
+        {% if request.user.is_authenticated %}
+        <div>
+          <a href='{% url "create" %}' class="btn btn-info" role="button">Create New for user {{ obj.user }}</a>
+        </div><br>
+        {% else %}
+        <div>
+          <a href='{% url "create" %}' class="btn btn-info" role="button">You have to authenticate to post.</a>
+        </div><br>
+        {% endif %}
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+          {% for obj in object_list %}
+
+          <div class="blog-post">
+            <h2 class="blog-post-title"><a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h2>
+            <p class="blog-post-meta">{{ obj.timestamp }} by <a href="#">{{ obj.user }}</a></p>
+
+            <p class="content-prewiew-truncate content-markdown post-detail-item">{{ obj.content|truncatechars_html:320 }}</p><br/>
+            <a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a>
+          </div><!-- /.blog-post -->
+
+          {% endfor %}
+
+          <nav>
+            <ul class="pager">
+              {% if object_list.has_previous %}
+            <li><a href="?{{ page_request_var }}={{ object_list.previous_page_number }}
+              {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a></li>
+            {% endif %}
+
+            <span class="current">
+                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            </span>
+
+            {% if object_list.has_next %}
+                <li><a href="?{{ page_request_var }}={{ object_list.next_page_number }}
+                  {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a></li>
+            {% endif %}
+
+              
+            </ul>
+          </nav>
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          {% include 'sidebar.html' %}
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+{% endblock content_posts %}

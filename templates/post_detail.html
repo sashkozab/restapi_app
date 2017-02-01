@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+
+{% block content_posts %}
+
+<ol class='breadcrumb'>
+        <li><a href='{% url "home" %}'>All posts.</a></li>
+        <li><a href='{{ instance.get_absolute_url }}'>{{ instance.title }}</a></li>
+</ol>
+<div class="blog-header">
+  <h1 class="blog-title">{{ title }} </h1>
+  <p class="blog-post-meta">Author: <a href="#">{{ instance.user }}</a>
+   <br>
+  Published: <span style="color:green;">{{ instance.timestamp }}</span>
+  {% if request.user ==  instance.user %}
+        <a href="{{ instance.update_post }}" class="btn btn-warning" role="button">Edit</a>
+        <a href="{{ instance.delete_post }}" class="btn btn-danger" role="button">Delete</a>
+        {% endif %}
+	
+</div>
+<br>
+<div class="caption blog-content">
+	<div class='col-sm-12 '>
+		<div class='content-markdown post-detail-item'>{{ instance.content }}</div><br/>
+	</div>
+</div>
+
+<style type="text/css">
+
+.form-sidebar {
+  display:none;
+}
+
+</style>
+
+{% endblock content_posts %}
+
