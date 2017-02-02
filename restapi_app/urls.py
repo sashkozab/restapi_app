@@ -13,10 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+
 from posts import views as posts_views
 from accounts.views import (login_view, register_view, logout_view)
+from posts.api import urls as posts_api_urls
 
 
 urlpatterns = [
@@ -26,7 +30,13 @@ urlpatterns = [
     url(r'^login/', login_view, name='login'),
     url(r'^register/', register_view, name='register'),
     url(r'^logout/', logout_view, name='logout'),
+    url(r'^api/posts/', include(posts_api_urls, namespace='posts-api')),
+
     url(r'^(?P<slug>[\w-]+)/$', posts_views.post_detail, name='detail'),
     url(r'^(?P<slug>[\w-]+)/edit/$', posts_views.post_update, name='update'),
     url(r'^(?P<slug>[\w-]+)/delete/$', posts_views.post_delete, name='delete'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
