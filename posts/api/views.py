@@ -26,6 +26,7 @@ from posts.models import Post
 from accounts.models import MyUser
 
 from .permissions import IsOwnerOrReadOnly
+from .pagination import PostLimitOffsetPagination, PostPageNumberPagination
 
 from .serializers import (
     PostCreateUpdateSerializer, 
@@ -73,6 +74,7 @@ class PostListAPIView(ListAPIView):
     filter_backends= [SearchFilter, OrderingFilter]
     # permission_classes = [AllowAny]
     search_fields = ['title', 'content', 'user']
+    pagination_class = PostPageNumberPagination #PageNumberPagination
 
     def get_queryset(self, *args, **kwargs):
         queryset_list = Post.objects.all()
