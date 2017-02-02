@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-
+from rest_framework_jwt.views import obtain_jwt_token
 from posts import views as posts_views
 from accounts.views import (login_view, register_view, logout_view)
 from posts.api import urls as posts_api_urls
@@ -30,6 +30,8 @@ urlpatterns = [
     url(r'^login/', login_view, name='login'),
     url(r'^register/', register_view, name='register'),
     url(r'^logout/', logout_view, name='logout'),
+    url(r'^api/auth/token/', obtain_jwt_token),
+
     url(r'^api/posts/', include(posts_api_urls, namespace='posts-api')),
     url(r'^api/users/', include("accounts.api.urls", namespace='users-api')),
 
