@@ -27,7 +27,7 @@
 
           <div class="blog-post">
             <h2 class="blog-post-title"><a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h2>
-            <p class="blog-post-meta">{{ obj.timestamp }} by <a href="#">{{ obj.user }}</a></p>
+            <p class="blog-post-meta">{{ obj.timestamp }} <a href="#">{{ obj.user }}</a></p>
 
             <p class="content-prewiew-truncate content-markdown post-detail-item">{{ obj.content|truncatechars_html:320 }}</p><br/>
             <a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a>

@@ -1,24 +1,36 @@
           <div class="sidebar-module sidebar-module-inset">
-            <h4>About</h4>
-            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+            <form method='GET' action='' class='row form-sidebar'>
+              <div class='col-sm-12'>
+                  <div class='input-group'>
+                      <input class='form-control' type='text' name='q' placeholder='Search posts' 
+                      value='{{ request.GET.q }}'/>
+                      <span class='input-group-btn'>
+                          <!-- <input class='btn btn-default' type='submit' value='Search' /> -->
+                          <button class='btn btn-default' type='submit'><i class="fa fa-search"></i></button>
+                      </span>
+                  </div>
+              </div>
+            </form><br>
+           <div class="sidebar-module">
+            <h4>Choose particular author's posts</h4>
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {% if request.GET.author %} {{ request.GET.author }} {% else %} Select {% endif %} <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+              <li><a href="/">All authors</a></li>
+              {% for author in authors_list %}
+              <li><a href="/?author={{ author }}">{{ author }}</a></li>
+              {% endfor %}
+              </ul>
+            </div>
           </div>
-          <div class="sidebar-module">
-            <h4>Archives</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">March 2014</a></li>
-              <li><a href="#">February 2014</a></li>
-              <li><a href="#">January 2014</a></li>
-              <li><a href="#">December 2013</a></li>
-              <li><a href="#">November 2013</a></li>
-              <li><a href="#">October 2013</a></li>
-              <li><a href="#">September 2013</a></li>
-              <li><a href="#">August 2013</a></li>
-              <li><a href="#">July 2013</a></li>
-              <li><a href="#">June 2013</a></li>
-              <li><a href="#">May 2013</a></li>
-              <li><a href="#">April 2013</a></li>
-            </ol>
+          <br>
+          
+
           </div>
+          <br>
+          
           <div class="sidebar-module">
             <h4>Elsewhere</h4>
             <ol class="list-unstyled">

@@ -108,7 +108,6 @@ AUTH_USER_MODEL = 'accounts.MyUser'
 
 AUTHENTICATION_BACKENDS = (
     'accounts.backends.SettingsBackend',
-    'django.contrib.auth.backends.ModelBackend',
 )
 
 
