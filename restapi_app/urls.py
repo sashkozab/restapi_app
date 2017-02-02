@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^register/', register_view, name='register'),
     url(r'^logout/', logout_view, name='logout'),
     url(r'^api/posts/', include(posts_api_urls, namespace='posts-api')),
+    url(r'^api/users/', include("accounts.api.urls", namespace='users-api')),
 
     url(r'^(?P<slug>[\w-]+)/$', posts_views.post_detail, name='detail'),
     url(r'^(?P<slug>[\w-]+)/edit/$', posts_views.post_update, name='update'),

@@ -34,6 +34,7 @@ class UserCreationForm(forms.ModelForm):
         print("It should be hashed.")
         if commit:
             user.save()
+            print("user saved!")
         return user
 
 class UserChangeForm(forms.Form):

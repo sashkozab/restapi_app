@@ -37,10 +37,11 @@ def register_view(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         user = form.save(commit=False)
-        password = form.cleaned_data.get('password')
+        password = form.cleaned_data.get('password1')
+        print("Pass in register: ")
         user.set_password(password)
         user.save()
-        update_session_auth_hash(request, user)
+        # update_session_auth_hash(request, user)
         new_user = authenticate(username=user.email, password=password)
         login(request, new_user)
         if next:
