@@ -1,3 +1,10 @@
+from django.db.models import Q
+
+from rest_framework.filters import (
+        SearchFilter,
+        OrderingFilter,
+    )
+
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -16,6 +23,7 @@ from rest_framework.permissions import (
     )
 
 from posts.models import Post
+from accounts.models import MyUser
 
 from .permissions import IsOwnerOrReadOnly
 
@@ -61,8 +69,28 @@ class PostDeleteAPIView(DestroyAPIView):
 
 
 class PostListAPIView(ListAPIView):
-    queryset = Post.objects.all()
     serializer_class = PostListSerializer
+    filter_backends= [SearchFilter, OrderingFilter]
+    # permission_classes = [AllowAny]
+    search_fields = ['title', 'content', 'user']
+
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Post.objects.all()
+        query = self.request.GET.get("q")
+        query_author = self.request.GET.get("author")
+        if query:
+            queryset_list = queryset_list.filter(
+                    Q(title__icontains=query)|
+                    Q(content__icontains=query)
+                    ).distinct()
+
+        if query_author:
+            particular_email = MyUser.objects.get(email = query_author)
+            particular_email_id = particular_email.id
+            post_objects = Post.objects.filter(user_id = particular_email_id)
+            queryset_list = post_objects
+
+        return queryset_list
 
 
 
