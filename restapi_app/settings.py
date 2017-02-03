@@ -166,7 +166,7 @@ REST_FRAMEWORK = {
 '''
 TESTING
 -------
-curl -X POST -d "email=rest@mail.com&password=restapi1234" http://127.0.0.1:8005/api/auth/token/
+curl -X POST -d "email=r@r.com&password=restapi1234" http://127.0.0.1:8005/api/auth/token/
 
 curl -X POST -H "Content-Type: application/json" -d '{"email":"t@t.com","password":"1111"}' http://localhost:8005/api/auth/token/
 
@@ -181,5 +181,7 @@ curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2V
 
 
 curl http://127.0.0.1:8000/api/comments/
+
+curl -X POST -F 'email=r@r.com' -F 'password=restapi1234' http://127.0.0.1:8005/api/auth/token/
 
 '''
