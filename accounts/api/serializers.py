@@ -6,6 +6,7 @@ from django.db.models import Q
 
 from rest_framework.serializers import (
     HyperlinkedIdentityField,
+    HyperlinkedModelSerializer,
     ModelSerializer,
     SerializerMethodField,
     ValidationError,
@@ -14,12 +15,13 @@ from rest_framework.serializers import (
     )
 
 
-User = get_user_model()
+# User = get_user_model()
+from accounts.models import MyUser
 
-
-class UserCreateSerializer(ModelSerializer):
+class UserCreateSerializer(HyperlinkedModelSerializer):
+    password = CharField(write_only=True, required=True)
     class Meta:
-        model = User
+        model = MyUser
         fields = [
             'email',
             'password',
@@ -32,9 +34,11 @@ class UserCreateSerializer(ModelSerializer):
         print("validated_data: ", validated_data)
         email = validated_data['email']
         password = validated_data['password']
-        user_obj = User(
+        user_obj = MyUser(
                 # username = username,
-                email = email
+                # email = email
+                email=validated_data['email'],
+                password=validated_data['password']
             )
         user_obj.set_password(password)
         user_obj.save()
@@ -43,8 +47,9 @@ class UserCreateSerializer(ModelSerializer):
 class UserLoginSerializer(ModelSerializer):
     token = CharField(allow_blank=True, read_only=True)
     email = EmailField(label='Email Address')
+    password = CharField(write_only=True, required=True)
     class Meta:
-        model = User
+        model = MyUser
         fields = [
             'email',
             'password',
@@ -56,18 +61,18 @@ class UserLoginSerializer(ModelSerializer):
                             }
     def validate(self, data):
         user_obj = None
-        email = data.get("email", None)
+        email = data.get("email")
         password = data["password"]
         print("FirstData: ",data)
         if not email:
             raise ValidationError("A email is required.")
-        user = User.objects.filter(
+        user = MyUser.objects.filter(
                 Q(email=email)
             ).distinct()
         user = user.exclude(email__isnull=True).exclude(email__iexact='')
         print("User from validate: ", user)
         print("is user exists: ", user.exists(), "user count : ", user.count)
-        if user.exists():
+        if user.exists() and user.count() == 1:
             print("password: ", password)
             user_obj = user.first()
         else:
@@ -79,4 +84,5 @@ class UserLoginSerializer(ModelSerializer):
                 raise ValidationError("Incorrect credentials.")
         data["token"] = "Some token"
         print("Data: ",data)
+        print("Pass: ", data["password"])
         return data

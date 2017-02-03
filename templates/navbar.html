@@ -30,6 +30,7 @@
         		<li><a href='{% url "register" %}'>Register</a></li>
         		<li><a href='{% url "login" %}'>Login</a></li>
         		{% else %}
+            <li><h4>{{ request.user }}</h4></li>
         		<li><a href='{% url "logout" %}'>Logout</a></li>
         		{% endif %}
     		</ul>
