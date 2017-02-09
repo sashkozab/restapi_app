@@ -7,6 +7,7 @@ post_detail_url = HyperlinkedIdentityField(
         lookup_field='slug'
         )
 
+
 class PostCreateUpdateSerializer(ModelSerializer):
     class Meta:
         model = Post
@@ -29,6 +30,7 @@ class PostDetailSerializer(ModelSerializer):
             'content',
             'timestamp'
         ]
+
 
 class PostListSerializer(ModelSerializer):
     url = post_detail_url

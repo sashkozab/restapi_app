@@ -111,6 +111,7 @@ AUTH_USER_MODEL = 'accounts.MyUser'
 
 AUTHENTICATION_BACKENDS = (
     'accounts.backends.SettingsBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 
@@ -152,9 +153,9 @@ REST_FRAMEWORK = {
     #     'rest_framework.parsers.JSONParser',
     # )
     "DEFAULT_AUTHENTICATION_CLASSES": (
+         'rest_framework.authentication.SessionAuthentication',
+         'rest_framework.authentication.BasicAuthentication',
          'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-         # 'rest_framework.authentication.SessionAuthentication',
-        #'rest_framework.authentication.BasicAuthentication'
 
     ), 
     "DEFAULT_PERMISSION_CLASSES": (
@@ -204,6 +205,10 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # (="username" | "email" | "username_email)
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 # JWT_AUTH = {
 #     'JWT_RESPONSE_PAYLOAD_HANDLER': 'jwt_response_payload_handler',

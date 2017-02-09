@@ -13,10 +13,11 @@ class SettingsBackend(object):
                     print("Auth.Pass checked")
                     return user
             except MyUser.DoesNotExist:
+                print("User doent exists: ", username)
                 return None
 
     def get_user(self, user_id):
-        print("get_user.")
+        print("get_user.", user_id)
         try:
             user = MyUser.objects.get(pk=user_id)
             print("is user active: ",user.is_active)
