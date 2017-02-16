@@ -108,7 +108,7 @@ class AuthTokenSerializer(Serializer):
     def validate(self, data):
         email = data.get('email')
         password = data.get('password')
-        username = User.objects.get(email=email).username
+        # username = User.objects.get(email=email).id
 
         if email and password:
             print("Email;Pass: ", email, password)

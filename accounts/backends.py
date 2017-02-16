@@ -1,7 +1,7 @@
 
 from .models import MyUser
 
-class SettingsBackend(object):
+class SettingsBackend:
 
     def authenticate(self, username=None, password=None):
             try:
